@@ -1,0 +1,24 @@
+#!/bin/bash -e
+root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
+data_dir="$root_dir/../data"
+base_url="http://content.udacity-data.com/courses/ud617"
+file="access_log.gz"
+target="${file%.gz}"
+url="$base_url/$file"
+
+if [ ! -f "$data_dir/$target" ] ; then
+
+	echo "Downloading $file from $url to $data_dir"
+	curl -fLo "$data_dir/$file" "$url"
+
+	echo "Decompressing file: $data_dir/$target"
+	gunzip "$data_dir/$file"
+
+fi
+
+if [ ! -f "$data_dir/sample_$target" ] ; then
+
+	echo "Creating a sample file for local testing: $data_dir/sample_$target"
+	head -n 1000 "$data_dir/$target" > "$data_dir/sample_$target"
+
+fi
