@@ -1,6 +1,5 @@
 #!/bin/env python
 import sys
-from decimal import *
 
 def reducer():
 
