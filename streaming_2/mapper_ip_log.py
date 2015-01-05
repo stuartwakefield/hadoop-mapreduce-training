@@ -14,14 +14,7 @@ def mapper():
 
             ip, identity, username, time, request, status, bytes = matches.groups()
             
-            matches = re.match(r"^(\S+)\s(\S+)\s(\S+)$", request)
-            
-            if matches and len(matches.groups()) != 3:
-                continue
-
-            method, path, protocol = matches.groups()
-            
-            print("%s\t%s" % (path, line.strip()))
+            print("%s\t%s" % (ip, line.strip()))
         except:
             continue
 
