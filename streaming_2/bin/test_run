@@ -3,4 +3,4 @@
 # argument 1 is the file path of the mapper
 # argument 2 is the file path of the reducer
 # The result is sent to stdout
-exec $1 | sort | exec $2
+exec $1 | LC_ALL=C sort | exec $2
