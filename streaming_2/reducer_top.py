@@ -21,7 +21,7 @@ def reducer():
             last = key
 
     if last:
-        print("%s\t%s" % (last, count))
+        print("%s\t%s" % (last, result))
 
 if __name__=='__main__':
     reducer()
