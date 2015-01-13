@@ -1,0 +1,26 @@
+#!/bin/bash -e
+root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
+data_dir="$root_dir/../data"
+base_url="http://content.udacity-data.com/course/hadoop"
+file="forum_data.tar.gz"
+targets=("forum_node.tsv" "forum_users.tsv")
+url="$base_url/$file"
+
+if [ ! -f "$data_dir/$file" ] ; then
+
+	echo "Downloading $file from $url to $data_dir"
+	curl -fLo "$data_dir/$file" "$url"
+
+	echo "Decompressing file: $data_dir/$file"
+	pushd "$data_dir"
+	tar -xzf "$file"
+	popd
+
+fi
+
+for target in "${targets[@]}" ; do
+	if [ ! -f "$data_dir/sample_$target" ] ; then
+		echo "Creating a sample file for local testing: $data_dir/sample_$target"
+		head -n 1000 "$data_dir/$target" > "$data_dir/sample_$target"
+	fi
+done
