@@ -8,14 +8,26 @@ def mapper():
     writer = csv.writer(sys.stdout, delimiter='\t', quotechar='"', quoting=csv.QUOTE_ALL)
 
     for line in reader:
-        # for users add in "A" as the second column
-        # for forums make "author_id" (currently the fourth column the first column)
-        # and add in "B" as the second column
+        
+        if len(line) == 19:
+            user_id = line[3]
+            body = re.sub(r'[\s]+', ' ', line[4])
 
-        # During the shuffle and sort phase we want to ensure the user record
-        # is the first row to hit the reducer so that we can add that information
-        # into all of the node records. Hence why we have chosen the source identifiers
-        # above
+            if user_id == "author_id":
+                continue
+
+            writer.writerow([user_id, "B"] + line[:3] + [body] + line[5:])
+
+        elif len(line) == 5:
+            user_id = line[0]
+
+            if user_id == "user_ptr_id":
+                continue
+
+            writer.writerow([user_id, "A"] + line[1:])
+
+        else:
+            continue
 
 if __name__=='__main__':
     mapper()
